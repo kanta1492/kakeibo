@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>家計簿</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="kakeibo.css">
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="main-wrapper">
+            
+            <section class="card form-section">
+                <form id="entry-form">
+                    <input type="hidden" id="edit-id" value="">
+                    
+                    <div class="type-toggle-container">
+                        <input type="radio" name="type" value="収入" id="type-income">
+                        <label for="type-income" class="toggle-btn income">収入</label>
+                        
+                        <input type="radio" name="type" value="支出" id="type-expense" checked>
+                        <label for="type-expense" class="toggle-btn expense">支出</label>
+                    </div>
+
+                    <div class="input-grid">
+                        <select id="user-select">
+                            <option value="かんた">かんた</option>
+                            <option value="なお">なお</option>
+                            <option value="2人分">2人分</option>
+                        </select>
+                        <select id="category-select">
+                            <option value="食費">食費</option><option value="交通費">交通費</option>
+                            <option value="日用品">日用品</option><option value="娯楽">娯楽</option>
+                            <option value="固定費">固定費</option><option value="給与">給与</option>
+                            <option value="その他">その他</option>
+                        </select>
+                        <input type="text" id="item-input" placeholder="メモ（内容）">
+                        <input type="number" id="amount-input" placeholder="金額" required>
+                    </div>
+                    <button type="submit" id="submit-btn">データを追加する</button>
+                    <button type="button" id="cancel-edit" class="secondary-btn hidden" style="margin-top:10px;">編集をキャンセル</button>
+                </form>
+            </section>
+
+            <button type="button" id="open-history-btn" class="secondary-btn">
+                <i class="fas fa-history"></i> 今月の履歴をすべて表示
+            </button>
+
+            <section class="card budget-card">
+                <div class="budget-header">
+                    <span>予算進捗</span>
+                    <span id="budget-percent" class="percent">0%</span>
+                </div>
+                <div class="budget-body">
+                    <div class="progress-bg"><div id="budget-bar" class="progress-fill"></div></div>
+                    <span id="budget-text" class="remain">--</span>
+                </div>
+            </section>
+
+            <div class="stats-grid">
+                <div class="stat-box balance"><small>残高</small><span id="total-balance">0</span></div>
+                <div class="stat-box income"><small>収入計</small><span id="total-income">0</span></div>
+                <div class="stat-box expense"><small>支出計</small><span id="total-expense">0</span></div>
+            </div>
+
+            <section class="card calendar-card">
+                <div class="calendar-nav">
+                    <button type="button" id="prev-month">◀</button>
+                    <h3 id="month-label">----年 --月</h3>
+                    <button type="button" id="next-month">▶</button>
+                </div>
+                <div class="calendar-container">
+                    <div class="weekdays"><span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span></div>
+                    <div id="calendar-grid" class="calendar-grid"></div>
+                </div>
+            </section>
+
+            <section class="card chart-card">
+                <div class="chart-wrap">
+                    <canvas id="expenseChart"></canvas>
+                    <div class="chart-label">
+                        <span id="center-total">0</span>
+                    </div>
+                </div>
+                <div class="user-footer">
+                    <div>かんた: <strong id="kanta-val">0</strong></div>
+                    <div>なお: <strong id="nao-val">0</strong></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div id="history-modal" class="modal hidden">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h3 id="modal-title">履歴</h3>
+                <button type="button" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <ul id="history-list"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="kakeibo.js"></script>
+</body>
+</html>
